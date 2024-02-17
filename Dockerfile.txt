@@ -1,7 +1,6 @@
 FROM maven:3.8.3-openjdk-17 as builder
 RUN apt-get update && apt-get install -y git
-RUN git init
-RUN git remote add origin https://github.com/I-Spider-Man/Trip-Partner.git
+RUN git init && git remote add origin https://github.com/I-Spider-Man/Trip-Partner.git
 RUN git pull origin main
 WORKDIR /app
 COPY pom.xml .
