@@ -8,27 +8,27 @@ pipeline {
                 }
             }
         }
-        stage('Install Docker'){
+        stage('Install Docker') {
             steps {
                 script {
-                    sh 'sudo apt-get update'
-                    sh 'sudo apt-get install ca-certificates curl'
-                    sh 'sudo install -m 0755 -d /etc/apt/keyrings'
-                    sh 'sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc'
-                    sh 'sudo chmod a+r /etc/apt/keyrings/docker.asc'
-                    sh 'echo \
-                        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-                        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-                        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
-                    sh 'sudo apt-get update'
-                    sh 'sudo apt-get install docker-ce docker-ce-cli containerd.io'
+                    // Install Docker
+                    sh 'sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common'
+                    sh 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
+                    sh 'sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"'
+                    sh 'sudo apt-get update && sudo apt-get install -y docker-ce docker-ce-cli containerd.io'
+
+                    // Add Jenkins user to Docker group (optional, for running Docker commands without sudo)
+                    sh 'sudo usermod -aG docker $USER'
                 }
             }
         }
-        stage('Install Docker compose'){
+        
+        stage('Install Docker Compose') {
             steps {
                 script {
-                    sh 'apt install docker-compose'
+                    // Install Docker Compose
+                    sh 'sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose'
+                    sh 'sudo chmod +x /usr/local/bin/docker-compose'
                 }
             }
         }
