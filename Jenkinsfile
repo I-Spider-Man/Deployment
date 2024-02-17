@@ -8,10 +8,18 @@ pipeline {
                 }
             }
         }
-        stage('Deploye') {
+        stage('Build') {
             steps {
                 script {
-                    sh 'docker-compose up'
+                    sh 'docker build -t backend .'
+                }
+            }
+        }
+ 
+        stage('Deploy') {
+            steps {
+                script {
+                    sh 'docker-compose up -d'
                 }
             }
         }
