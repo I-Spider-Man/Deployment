@@ -15,7 +15,8 @@ services:
     depends_on:
       - mysqldb
       - mongodb
-    image: backend-sample:latest
+    build: ./
+    container_name: backendImage
     restart: on-failure
     ports:
       - 8000:8000
