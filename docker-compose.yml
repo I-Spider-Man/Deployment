@@ -11,6 +11,9 @@ services:
   mongodb:
     image: mongo:latest
     restart: unless-stopped
+  admin:
+    image: frontend:latest
+    restart: unless-stopped
   app:
     depends_on:
       - mysqldb
