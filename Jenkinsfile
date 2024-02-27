@@ -4,14 +4,14 @@ pipeline {
         stage('checkout') {
             steps {
                 script {
-                    checkout scmGit(branches: [[name: '*/Deployment-frontend-admin']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/I-Spider-Man/Deployment.git']])
+                    checkout scmGit(branches: [[name: '*/admin']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/I-Spider-Man/Deployment-Front-End-Admin.git']])
                 }
             }
         }
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build -t frontend .'
+                    sh 'docker build -t admin .'
                 }
             }
         }
